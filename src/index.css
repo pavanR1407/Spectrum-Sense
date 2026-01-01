@@ -1,0 +1,492 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Quicksand:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 230 25% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 230 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 230 25% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 280 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 230 20% 20%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 230 25% 8%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 230 20% 25%;
+    --input: 230 20% 20%;
+    --ring: 280 100% 65%;
+
+    --radius: 1rem;
+
+    /* Game-specific colors */
+    --game-red: 0 85% 55%;
+    --game-blue: 210 100% 55%;
+    --game-green: 140 70% 45%;
+    --game-yellow: 50 100% 50%;
+    --game-purple: 280 80% 60%;
+    --game-orange: 25 100% 55%;
+    --game-cyan: 185 100% 50%;
+    --game-pink: 330 85% 60%;
+    --game-lime: 90 70% 50%;
+
+    /* Glow effects */
+    --glow-intensity: 0.8;
+    --glow-spread: 30px;
+
+    /* Animation durations */
+    --flash-duration: 400ms;
+    --sequence-delay: 600ms;
+
+    /* Fonts */
+    --font-display: 'Righteous', cursive;
+    --font-body: 'Quicksand', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 230 25% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 230 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 230 25% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 280 100% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 230 20% 20%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 230 25% 8%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 230 20% 25%;
+    --input: 230 20% 20%;
+    --ring: 280 100% 65%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-body);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .game-container {
+    @apply min-h-screen w-full flex flex-col items-center justify-center p-4;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(250 30% 12%) 25%,
+      hsl(280 25% 10%) 50%,
+      hsl(230 30% 8%) 75%,
+      hsl(var(--background)) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+  }
+
+  .game-title {
+    font-family: var(--font-display);
+    @apply text-4xl md:text-6xl font-bold text-center;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--secondary)) 50%,
+      hsl(var(--accent)) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px hsl(var(--primary) / 0.5);
+    animation: title-glow 3s ease-in-out infinite alternate;
+  }
+
+  .level-display {
+    font-family: var(--font-display);
+    @apply text-2xl md:text-3xl font-semibold;
+    color: hsl(var(--secondary));
+    text-shadow: 0 0 20px hsl(var(--secondary) / 0.8);
+  }
+
+  .game-grid {
+    @apply grid gap-3 md:gap-4 p-4;
+    perspective: 1000px;
+  }
+
+  .game-button {
+    @apply relative rounded-2xl cursor-pointer transition-all duration-200;
+    @apply w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28;
+    @apply border-2 border-transparent;
+    transform-style: preserve-3d;
+  }
+
+  .game-button::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200;
+  }
+
+  .game-button:hover:not(:disabled) {
+    transform: scale(1.05) translateZ(10px);
+  }
+
+  .game-button:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  .game-button.flashing {
+    animation: button-flash var(--flash-duration) ease-out;
+  }
+
+  /* Color-specific button styles */
+  .game-button-red {
+    background: linear-gradient(145deg, hsl(0 85% 60%), hsl(0 85% 45%));
+    box-shadow: 
+      0 4px 15px hsl(0 85% 55% / 0.3),
+      inset 0 2px 10px hsl(0 85% 70% / 0.3);
+  }
+
+  .game-button-red.flashing,
+  .game-button-red.active {
+    background: linear-gradient(145deg, hsl(0 85% 75%), hsl(0 85% 60%));
+    box-shadow: 
+      0 0 40px hsl(0 85% 55% / 0.8),
+      0 0 80px hsl(0 85% 55% / 0.4),
+      inset 0 2px 20px hsl(0 85% 80% / 0.5);
+  }
+
+  .game-button-blue {
+    background: linear-gradient(145deg, hsl(210 100% 60%), hsl(210 100% 45%));
+    box-shadow: 
+      0 4px 15px hsl(210 100% 55% / 0.3),
+      inset 0 2px 10px hsl(210 100% 70% / 0.3);
+  }
+
+  .game-button-blue.flashing,
+  .game-button-blue.active {
+    background: linear-gradient(145deg, hsl(210 100% 75%), hsl(210 100% 60%));
+    box-shadow: 
+      0 0 40px hsl(210 100% 55% / 0.8),
+      0 0 80px hsl(210 100% 55% / 0.4),
+      inset 0 2px 20px hsl(210 100% 80% / 0.5);
+  }
+
+  .game-button-green {
+    background: linear-gradient(145deg, hsl(140 70% 50%), hsl(140 70% 35%));
+    box-shadow: 
+      0 4px 15px hsl(140 70% 45% / 0.3),
+      inset 0 2px 10px hsl(140 70% 60% / 0.3);
+  }
+
+  .game-button-green.flashing,
+  .game-button-green.active {
+    background: linear-gradient(145deg, hsl(140 70% 65%), hsl(140 70% 50%));
+    box-shadow: 
+      0 0 40px hsl(140 70% 45% / 0.8),
+      0 0 80px hsl(140 70% 45% / 0.4),
+      inset 0 2px 20px hsl(140 70% 70% / 0.5);
+  }
+
+  .game-button-yellow {
+    background: linear-gradient(145deg, hsl(50 100% 55%), hsl(50 100% 40%));
+    box-shadow: 
+      0 4px 15px hsl(50 100% 50% / 0.3),
+      inset 0 2px 10px hsl(50 100% 65% / 0.3);
+  }
+
+  .game-button-yellow.flashing,
+  .game-button-yellow.active {
+    background: linear-gradient(145deg, hsl(50 100% 70%), hsl(50 100% 55%));
+    box-shadow: 
+      0 0 40px hsl(50 100% 50% / 0.8),
+      0 0 80px hsl(50 100% 50% / 0.4),
+      inset 0 2px 20px hsl(50 100% 75% / 0.5);
+  }
+
+  .game-button-purple {
+    background: linear-gradient(145deg, hsl(280 80% 65%), hsl(280 80% 50%));
+    box-shadow: 
+      0 4px 15px hsl(280 80% 60% / 0.3),
+      inset 0 2px 10px hsl(280 80% 75% / 0.3);
+  }
+
+  .game-button-purple.flashing,
+  .game-button-purple.active {
+    background: linear-gradient(145deg, hsl(280 80% 80%), hsl(280 80% 65%));
+    box-shadow: 
+      0 0 40px hsl(280 80% 60% / 0.8),
+      0 0 80px hsl(280 80% 60% / 0.4),
+      inset 0 2px 20px hsl(280 80% 85% / 0.5);
+  }
+
+  .game-button-orange {
+    background: linear-gradient(145deg, hsl(25 100% 60%), hsl(25 100% 45%));
+    box-shadow: 
+      0 4px 15px hsl(25 100% 55% / 0.3),
+      inset 0 2px 10px hsl(25 100% 70% / 0.3);
+  }
+
+  .game-button-orange.flashing,
+  .game-button-orange.active {
+    background: linear-gradient(145deg, hsl(25 100% 75%), hsl(25 100% 60%));
+    box-shadow: 
+      0 0 40px hsl(25 100% 55% / 0.8),
+      0 0 80px hsl(25 100% 55% / 0.4),
+      inset 0 2px 20px hsl(25 100% 80% / 0.5);
+  }
+
+  .game-button-cyan {
+    background: linear-gradient(145deg, hsl(185 100% 55%), hsl(185 100% 40%));
+    box-shadow: 
+      0 4px 15px hsl(185 100% 50% / 0.3),
+      inset 0 2px 10px hsl(185 100% 65% / 0.3);
+  }
+
+  .game-button-cyan.flashing,
+  .game-button-cyan.active {
+    background: linear-gradient(145deg, hsl(185 100% 70%), hsl(185 100% 55%));
+    box-shadow: 
+      0 0 40px hsl(185 100% 50% / 0.8),
+      0 0 80px hsl(185 100% 50% / 0.4),
+      inset 0 2px 20px hsl(185 100% 75% / 0.5);
+  }
+
+  .game-button-pink {
+    background: linear-gradient(145deg, hsl(330 85% 65%), hsl(330 85% 50%));
+    box-shadow: 
+      0 4px 15px hsl(330 85% 60% / 0.3),
+      inset 0 2px 10px hsl(330 85% 75% / 0.3);
+  }
+
+  .game-button-pink.flashing,
+  .game-button-pink.active {
+    background: linear-gradient(145deg, hsl(330 85% 80%), hsl(330 85% 65%));
+    box-shadow: 
+      0 0 40px hsl(330 85% 60% / 0.8),
+      0 0 80px hsl(330 85% 60% / 0.4),
+      inset 0 2px 20px hsl(330 85% 85% / 0.5);
+  }
+
+  .game-button-lime {
+    background: linear-gradient(145deg, hsl(90 70% 55%), hsl(90 70% 40%));
+    box-shadow: 
+      0 4px 15px hsl(90 70% 50% / 0.3),
+      inset 0 2px 10px hsl(90 70% 65% / 0.3);
+  }
+
+  .game-button-lime.flashing,
+  .game-button-lime.active {
+    background: linear-gradient(145deg, hsl(90 70% 70%), hsl(90 70% 55%));
+    box-shadow: 
+      0 0 40px hsl(90 70% 50% / 0.8),
+      0 0 80px hsl(90 70% 50% / 0.4),
+      inset 0 2px 20px hsl(90 70% 75% / 0.5);
+  }
+
+  .game-button:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+
+  .start-button {
+    font-family: var(--font-display);
+    @apply px-10 py-4 text-xl md:text-2xl font-bold rounded-full;
+    @apply transition-all duration-300 cursor-pointer;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(280 80% 50%));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 
+      0 4px 20px hsl(var(--primary) / 0.5),
+      0 0 40px hsl(var(--primary) / 0.2);
+    border: 2px solid hsl(var(--primary) / 0.5);
+  }
+
+  .start-button:hover {
+    transform: scale(1.05);
+    box-shadow: 
+      0 6px 30px hsl(var(--primary) / 0.6),
+      0 0 60px hsl(var(--primary) / 0.3);
+  }
+
+  .start-button:active {
+    transform: scale(0.98);
+  }
+
+  .message-display {
+    font-family: var(--font-display);
+    @apply text-xl md:text-2xl font-medium text-center min-h-[2rem];
+    animation: message-pulse 2s ease-in-out infinite;
+  }
+
+  .message-success {
+    color: hsl(var(--game-green));
+    text-shadow: 0 0 20px hsl(var(--game-green) / 0.8);
+  }
+
+  .message-error {
+    color: hsl(var(--destructive));
+    text-shadow: 0 0 20px hsl(var(--destructive) / 0.8);
+  }
+
+  .message-info {
+    color: hsl(var(--secondary));
+    text-shadow: 0 0 20px hsl(var(--secondary) / 0.8);
+  }
+
+  .stats-card {
+    @apply bg-card/50 backdrop-blur-md rounded-2xl p-4 md:p-6;
+    @apply border border-border/50;
+    box-shadow: 0 8px 32px hsl(var(--background) / 0.5);
+  }
+
+  .new-color-badge {
+    @apply absolute -top-2 -right-2 px-2 py-1 text-xs font-bold rounded-full;
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(45 100% 45%));
+    color: hsl(var(--accent-foreground));
+    animation: badge-bounce 0.5s ease-out;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .animate-in {
+    animation: fade-scale-in 0.5s ease-out forwards;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes title-glow {
+  0% {
+    filter: brightness(1) drop-shadow(0 0 20px hsl(var(--primary) / 0.5));
+  }
+  100% {
+    filter: brightness(1.2) drop-shadow(0 0 40px hsl(var(--primary) / 0.8));
+  }
+}
+
+@keyframes button-flash {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes message-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes badge-bounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-10px);
+  }
+  40%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+.shake {
+  animation: shake 0.5s ease-out;
+}
